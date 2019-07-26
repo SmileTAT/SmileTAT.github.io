@@ -2,7 +2,7 @@
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
-  <title>Senmantic Segmentation_001_FCN | Deep Learning</title>
+  <title>语义分割系列论文(001-FCN) | Deep Learning</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="stylesheet" href="/css/app.css">
@@ -26,7 +26,7 @@
   <main class="post">
   <article>
   <h1 class="article-title">
-    <a href="/SenmanticSegmentation/SenmaticSegmantation_001_FCN/">Senmantic Segmentation_001_FCN</a>
+    <a href="/SenmanticSegmentation/SenmaticSegmantation_001_FCN/">语义分割系列论文(001-FCN)</a>
   </h1>
 
   <section class="article-meta">
@@ -38,18 +38,26 @@
 <p><img src="/pictures/image-20190711201633677.png" alt="image-20190711201633677"></p>
 <h2>FCN的主要贡献</h2>
 <ol>
-<li>fully convolutional network，可接受任意大小的输入/输出</li>
-<li>扩展分类网络应用到语义分割任务</li>
+<li>提出全卷积神经网络fully convolutional network，可接受任意大小的输入/输出</li>
+<li>扩展分类网络应用到语义分割任务，将fc层转换成卷积层</li>
 </ol>
 <h2>FCN的具体结构</h2>
 <p><img src="/pictures/image-20190711202404918.png" alt="image-20190711202404918"></p>
 <p>将全连接层转换成卷积层来获取空间信息</p>
 <p><img src="/pictures/image-20190711202703893.png" alt="image-20190711202703893"></p>
 <p>结合浅层和深层特征获取更精细的分割效果</p>
+<h2>FCN的上采样</h2>
+<p>upsampling
+deconv</p>
+<h2>FCN的不同尺度下的预测</h2>
+<p>FCN-32s，直接使用pool5的feature maps进行32倍上采样softmax激活后输出
+FCN-16s，先对pool5 feature maps进行2被上采样，再与pool4 feature maps进行element-wise相加后进行16倍上采样，softmax激活后输出
+FCN-8s，在FCN-16s中的element-wise相加后进行2倍上采样后与pool3进行element-wise相加再进行8倍上采样，然后softmax激活后输出</p>
+<p>预测精度排序 FCN8s &gt; FCN16s &gt; FCN32s，主要得益于浅层特征保留的位置信息，以及多尺度特征。FCN是基于分类网络设计的，其主要用于提取图像的高级语义信息用于分类任务，在不断pooling汇聚高级语义的过程中，位置信息在不断丢失。</p>
 <h2>FCN缺点</h2>
 <ol>
 <li>分割结果不够精细，对图像中的细节不敏感</li>
-<li></li>
+<li>没有充分考虑像素之间的关系，缺乏空间一致性</li>
 </ol>
 
   </section>
