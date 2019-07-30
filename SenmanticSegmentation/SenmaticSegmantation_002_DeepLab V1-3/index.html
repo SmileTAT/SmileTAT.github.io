@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>语义分割系列论文(002-DeepLab V1-3) | Deep Learning</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/app.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
+  
+</head>
+</html>
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+</nav>
+
+  <main class="post">
+  <article>
+  <h1 class="article-title">
+    <a href="/SenmanticSegmentation/SenmaticSegmantation_002_DeepLab V1-3/">语义分割系列论文(002-DeepLab V1-3)</a>
+  </h1>
+
+  <section class="article-meta">
+    <p class="article-date">July 11 2019</p>
+  </section>
+
+  <section class="article-entry">
+    <h1>Deep Lab V1</h1>
+<p><img src="/pictures/image-20190711205842813.png" alt="image-20190711205842813"></p>
+<h2>Deep Lab V1主要的贡献</h2>
+<ol>
+<li>由于平移不变性使DCNN good for high level任务，但在分割任务重也导致了目标定位不准的问题</li>
+<li>添加全连接的CRF来解决定位不准的问题</li>
+<li>引入空洞卷积</li>
+</ol>
+<h2>Deep Lab V1 网络结构</h2>
+<ol>
+<li>FC 转换为Conv（位置信息）</li>
+<li>删除最后的两层max pooling（得到更密集的输出，32 pixels/stride -&gt; 8 pixels/stride）</li>
+<li>引入空洞卷积（增大感受野）</li>
+</ol>
+<h2>CRF</h2>
+<p>score map已经足够光滑和生成了同质的分类结果，短范围的CRF将是有害的。采用长距离的CRF来恢复细节而不是继续光滑。</p>
+<p>（CRF不会）</p>
+<h1>Deep Lab V2</h1>
+<h2>ASPP 结构</h2>
+<p><img src="/pictures/image-20190716221420326.png" alt="image-20190716221420326"></p>
+<p>多尺度特征</p>
+<p>sum-fusion</p>
+<h1>Deep Lab V3</h1>
+<p><img src="/pictures/image-20190716222459377.png" alt="image-20190716222459377"></p>
+<p><img src="/pictures/image-20190716222242790.png" alt="image-20190716222242790"></p>
+<p>ResNet</p>
+<p>ASPP中添加BN层</p>
+<p>ASPP中添加了Image Pooling</p>
+<p>去除CRF</p>
+<h1>Deep Lab V3+</h1>
+<p><img src="/pictures/image-20190716222920470.png" alt="image-20190716222920470"></p>
+
+  </section>
+</article>
+
+  <div class="sharing grid">
+  <section class="profile grid-item grid">
+    <img class="avatar" src="/pictures/avatar.png" alt="avatar" />
+    <div class="grid-item">
+      <p class="title"> Deep Learning </p>
+      <p class="subtitle"> Deep Learn Deep Learning </p>
+    <div>
+  </section>
+
+  <section class="share-btns">
+    <!-- <p> share it if you like it~ </p> -->
+    <a
+  class="twitter-share-button"
+  data-size="large"
+  data-via="smiletat"
+  href="https://twitter.com/intent/tweet?text=>Deep Lab V1</h1>
+<p"
+>
+  Tweet
+</a>
+
+<script>
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  js.async = true;
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+
+  </section>
+</div>
+
+
+  
+    
+<section class="article-comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+<script>
+  var disqus_shortname = 'smiletat';
+  
+  var disqus_url = 'http://yoursite.com/SenmanticSegmentation/SenmaticSegmantation_002_DeepLab V1-3/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+  
+</main>
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>语义分割系列论文(005-UNet_SegNet_DeepLab) | Deep Learning</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/app.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
+  
+</head>
+</html>
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+</nav>
+
+  <main class="post">
+  <article>
+  <h1 class="article-title">
+    <a href="/SenmanticSegmentation/SenmaticSegmantation_005_UNet_SegNet_DeepLab/">语义分割系列论文(005-UNet_SegNet_DeepLab)</a>
+  </h1>
+
+  <section class="article-meta">
+    <p class="article-date">May 15 2019</p>
+  </section>
+
+  <section class="article-entry">
+    <h1>FCN</h1>
+<p>https://zhuanlan.zhihu.com/p/31428783</p>
+<p><strong>FCN结构</strong>：</p>
+<p><img src="https://pic1.zhimg.com/v2-721ef7417b32a5aa4973f1e8dd16d90c_r.jpg" alt="preview"></p>
+<p><strong>注意点</strong>1：</p>
+<ol>
+<li>
+<p>第一个卷积层加入pad=100，解决图像过小导致1/32倍下采样后输出feature map太小的情况</p>
+</li>
+<li>
+<p>$$pool1: h^1 = (h-2)/2+1=h/2$$</p>
+<p>$$ pool2: h^2=(h^1-2)/2+1=h/2^2$$</p>
+<p>$$…...$$</p>
+<p>$$pool5:h^5=(h^4-2)/2+1=h/2^5$$</p>
+<p>$$fc6:h^6=(h^5-7)/1+1=(h-192)/2^5$$</p>
+<p>如果不加pad=100对于小于192的输入，feature map size=0，无法恢复</p>
+</li>
+<li>
+<p>加入pad=100后引入了很大的噪声</p>
+</li>
+<li>
+<p>加入pad后feature map 尺寸变化需要使用Crop层</p>
+</li>
+</ol>
+<p><strong>注意点2</strong>：</p>
+<p>特征融合方式：逐点相加</p>
+<p>反卷积上采样，可以学习非线性特征</p>
+<h1>UNet</h1>
+<p>https://zhuanlan.zhihu.com/p/31428783</p>
+<p>Unet结构**：</p>
+<p><img src="https://pic1.zhimg.com/80/v2-96f5e828c1e83c930aa4a2bb91e64c10_hd.jpg" alt="img"></p>
+<p><strong>注意点1</strong>：</p>
+<p>特征融合方式：在channel维度方向拼接：concat</p>
+<p>#SegNet</p>
+<p><img src="https://img-blog.csdn.net/20170526141456016?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdqdW5oaXQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
+<p><strong>注意点1</strong>:</p>
+<p>maxpooling记录了坐标，在对应上采样时使用这些坐标</p>
+<p>优点：改善边界，减少参数，</p>
+<h1>DeepLab系列</h1>
+<p>###DeepLab V3</p>
+<p><strong>ASPP的改进</strong>：并行结构</p>
+<p><img src="https://img-blog.csdn.net/20180721210433507?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0RseWxkeHds/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p><strong>ASPP注意点1</strong>：</p>
+<ol>
+<li>1x1Conv：相当于rate很大的空洞卷积</li>
+<li>引入全局池化image pooling：图像层级的特征，多尺度</li>
+</ol>
+<p><strong>ASPP串联结构</strong>：</p>
+<p><img src="https://img-blog.csdn.net/20180721212909978?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0RseWxkeHds/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<h3>DeepLab V3+</h3>
+<p><img src="https://img-blog.csdn.net/20180722191045112?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0RseWxkeHds/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p><strong>注意点1</strong>：</p>
+<ol>
+<li>Low-Level Features一般指s=4的输出， 因为语义信息较少所以接了1x1Conv：</li>
+</ol>
+
+  </section>
+</article>
+
+  <div class="sharing grid">
+  <section class="profile grid-item grid">
+    <img class="avatar" src="/pictures/avatar.png" alt="avatar" />
+    <div class="grid-item">
+      <p class="title"> Deep Learning </p>
+      <p class="subtitle"> Deep Learn Deep Learning </p>
+    <div>
+  </section>
+
+  <section class="share-btns">
+    <!-- <p> share it if you like it~ </p> -->
+    <a
+  class="twitter-share-button"
+  data-size="large"
+  data-via="smiletat"
+  href="https://twitter.com/intent/tweet?text=>FCN</h1>
+<p>https:/"
+>
+  Tweet
+</a>
+
+<script>
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  js.async = true;
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+
+  </section>
+</div>
+
+
+  
+    
+<section class="article-comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+<script>
+  var disqus_shortname = 'smiletat';
+  
+  var disqus_url = 'http://yoursite.com/SenmanticSegmentation/SenmaticSegmantation_005_UNet_SegNet_DeepLab/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+  
+</main>
+
+</body>
+</html>

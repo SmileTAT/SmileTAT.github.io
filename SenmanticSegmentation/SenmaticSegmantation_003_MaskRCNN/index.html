@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>语义分割系列论文(003-Mask R-CNN) | Deep Learning</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/app.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
+  
+</head>
+</html>
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+</nav>
+
+  <main class="post">
+  <article>
+  <h1 class="article-title">
+    <a href="/SenmanticSegmentation/SenmaticSegmantation_003_MaskRCNN/">语义分割系列论文(003-Mask R-CNN)</a>
+  </h1>
+
+  <section class="article-meta">
+    <p class="article-date">July 10 2019</p>
+  </section>
+
+  <section class="article-entry">
+    <h1>Mask R-CNN</h1>
+<p><img src="/pictures/image-20190710200752833.png" alt="image-20190710200752833"></p>
+<p><img src="/pictures/image-20190710205915399.png" alt="image-20190710205915399"></p>
+<h2>Mask R-CNN 主要贡献</h2>
+<ol>
+<li>添加分割分支来扩展Faster R-CNN，实现实例分割</li>
+<li>提出RoIAlign 改进RoIPool来 fix the misalignment</li>
+<li>并行预测masks和class labels</li>
+</ol>
+<h2>Mask R-CNN具体结构</h2>
+<p><strong>Mask R-CNN</strong></p>
+<p>Faster R-CNN预测类别+bounding box</p>
+<p>添加并行的masks预测分支（binary mask），每个RoI输出$Km^{2}$，K是类别数</p>
+<p>多任务损失函数：$L=L_{cls}+L_{box}+L_{mask}$</p>
+<p><strong>RoIAlign</strong>：</p>
+<p>RoIPooling：</p>
+<p>预测mask需要RoI特征，但是这些特征图尺寸较小对，需要保留对应的空间位置，所以提出RoIAlign来改进RoIPooling</p>
+<p>RoI存在两步量化，导致位置误差（misalignment between the RoI and the extracted features）</p>
+<p>RoIAlign：</p>
+<p>双线性插值来避免misalignment</p>
+<p><img src="/pictures/image-20190710205853545.png" alt="image-20190710205853545"></p>
+<h2>注意点</h2>
+<ol>
+<li>RoIAlign 在更严格的定位评估下提升更加明显</li>
+<li>Mask R-CNN对每一个ROI预测的是binary mask</li>
+<li>$L_{mask}$仅由相关的第$k$个类别计算，由分类分支得到k，其余不考虑，采用的是BCE</li>
+</ol>
+<h2>拓展</h2>
+<p>实例分割：</p>
+<ol>
+<li>based on segment proposals</li>
+<li>fully convolutional instance segmentation</li>
+<li>基于语义分割结果再进行像素的实例分类</li>
+</ol>
+<p>RoIAlign：</p>
+<ol>
+<li>RoIWarp</li>
+</ol>
+
+  </section>
+</article>
+
+  <div class="sharing grid">
+  <section class="profile grid-item grid">
+    <img class="avatar" src="/pictures/avatar.png" alt="avatar" />
+    <div class="grid-item">
+      <p class="title"> Deep Learning </p>
+      <p class="subtitle"> Deep Learn Deep Learning </p>
+    <div>
+  </section>
+
+  <section class="share-btns">
+    <!-- <p> share it if you like it~ </p> -->
+    <a
+  class="twitter-share-button"
+  data-size="large"
+  data-via="smiletat"
+  href="https://twitter.com/intent/tweet?text=>Mask R-CNN</h1>
+<p>"
+>
+  Tweet
+</a>
+
+<script>
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  js.async = true;
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+
+  </section>
+</div>
+
+
+  
+    
+<section class="article-comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+<script>
+  var disqus_shortname = 'smiletat';
+  
+  var disqus_url = 'http://yoursite.com/SenmanticSegmentation/SenmaticSegmantation_003_MaskRCNN/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+  
+</main>
+
+</body>
+</html>

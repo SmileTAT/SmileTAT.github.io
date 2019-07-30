@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>语义分割系列论文(004-UNet++) | Deep Learning</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/app.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
+  
+</head>
+</html>
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+</nav>
+
+  <main class="post">
+  <article>
+  <h1 class="article-title">
+    <a href="/SenmanticSegmentation/SenmaticSegmantation_004_UNet++/">语义分割系列论文(004-UNet++)</a>
+  </h1>
+
+  <section class="article-meta">
+    <p class="article-date">July 10 2019</p>
+  </section>
+
+  <section class="article-entry">
+    <h1>UNet++</h1>
+<p><img src="/pictures/image-20190710213603672.png" alt="image-20190710213603672"></p>
+<p><img src="/pictures/image-20190710220726472.png" alt="image-20190710220726472"></p>
+<h2>UNet++的贡献</h2>
+<ol>
+<li>子网络通过密集连接来降低encoder和decoder之间feature maps之间的语义间距（semantic gap），作者认为语义相似时优化器更容易优化，更容易捕捉前景的细节</li>
+<li>更高的分割精度</li>
+</ol>
+<h2>UNet++结构</h2>
+<p><strong>UNet++</strong>：</p>
+<p>Fig1</p>
+<p><strong>Deep supervision</strong></p>
+<ol>
+<li>所有分支的平均</li>
+<li>快速模式，选择剪枝后的变体</li>
+</ol>
+<p><strong>损失函数</strong>
+$$
+L(Y,\hat{Y})=-\frac{1}{N}\sum_{b=1}^{N}(\frac{1}{2}\cdot Y_b\cdot\log(\hat{Y_b})+\frac{2\cdot Y_b\cdot \hat{Y_b}}{Y_b+\hat{Y_b}})
+$$
+BCE+dice coefficient</p>
+<h2>拓展</h2>
+<p>U-Net：</p>
+<ol>
+<li>wide U-Net</li>
+<li>GridNet</li>
+</ol>
+<p>skip connections：</p>
+<ol>
+<li>combine (deep, semantic, coarse-grained feature maps) with (shallow, low-level, fine-grained feature maps)</li>
+<li>有利于恢复目标的细粒度的细节（甚至在复杂背景下）</li>
+</ol>
+
+  </section>
+</article>
+
+  <div class="sharing grid">
+  <section class="profile grid-item grid">
+    <img class="avatar" src="/pictures/avatar.png" alt="avatar" />
+    <div class="grid-item">
+      <p class="title"> Deep Learning </p>
+      <p class="subtitle"> Deep Learn Deep Learning </p>
+    <div>
+  </section>
+
+  <section class="share-btns">
+    <!-- <p> share it if you like it~ </p> -->
+    <a
+  class="twitter-share-button"
+  data-size="large"
+  data-via="smiletat"
+  href="https://twitter.com/intent/tweet?text=>UNet++</h1>
+<p><img"
+>
+  Tweet
+</a>
+
+<script>
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  js.async = true;
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+
+  </section>
+</div>
+
+
+  
+    
+<section class="article-comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+<script>
+  var disqus_shortname = 'smiletat';
+  
+  var disqus_url = 'http://yoursite.com/SenmanticSegmentation/SenmaticSegmantation_004_UNet++/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+  
+</main>
+
+</body>
+</html>

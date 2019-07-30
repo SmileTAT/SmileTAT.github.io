@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>弱监督与半监督语义分割（004-IRNet） | Deep Learning</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/app.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
+  
+</head>
+</html>
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+</nav>
+
+  <main class="post">
+  <article>
+  <h1 class="article-title">
+    <a href="/SenmanticSegmentation/弱监督与半监督语义分割（四）IRNet/">弱监督与半监督语义分割（004-IRNet）</a>
+  </h1>
+
+  <section class="article-meta">
+    <p class="article-date">May 24 2019</p>
+  </section>
+
+  <section class="article-entry">
+    <p>[TOC]</p>
+<p><img src="/pictures/image-20190524162958745.png" alt="image-20190524162958745"></p>
+<h2 id="注意点-启发"><a href="#注意点-启发" class="headerlink" title="注意点/启发"></a>注意点/启发</h2><ol>
+<li>双阶段</li>
+</ol>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>以image-level 类别标签做实例分割。方法是为训练图片生成伪实例分割标签来训练一个全监督的网络。为了生成伪标签，我们首先借助分类网络从注意力图中确定可靠的种子区域，然后扩张他们使用准确的边界框来覆盖整个实例区域。提出IRNet来评估单独实例的粗略区域并检测不同目标类的检测边界。因此，它可以为种子分配实例标签并在边界内传播它们，从而可以准确地估计整个实体区域。另外，使用注意力图上内部像素的关系来训练IRNet，因此不需要额外的监督信息。SOAT PASCAL VOC 2012.</p>
+<h2 id="主要贡献"><a href="#主要贡献" class="headerlink" title="主要贡献"></a>主要贡献</h2><ol>
+<li>通过类的无关图使用image-level监督来识别和定位实例</li>
+<li>通过类别边界检测来学习和预测像素和image-level监督的语义映射，与之前的工作相比更有效</li>
+<li>PASCAL VOC 2012 TOTA</li>
+</ol>
+<h2 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h2><p>本节回顾与我们方法相近的语义和实例分割。我们首先介绍两个任务的弱监督方法，并讨论基于类似于我们框架的displacement和pairwise semantic affinity思想的模型。</p>
+<h3 id="weakly-supervised-semantic-segmentation"><a href="#weakly-supervised-semantic-segmentation" class="headerlink" title="weakly supervised semantic segmentation"></a>weakly supervised semantic segmentation</h3><p>对于弱监督语义分割已经有多种弱标签被使用，比如：bounding boxes，scribbles，points。特别是image-level类别被广泛用作弱标签，因为他们只需极少的标注。更多使用image-level的方法是基于CAMs[39,46,52]，他可以通过绘制目标类别显著性的区域来粗略地定位目标区域。<strong>然而，CAMs经常不能揭示完整的目标区域的正确边界。</strong>为了克服这个问题，使用额外的数据或监督来获取额外的信息，比如显著性，视频中的动作，提出类别无关目标？？最近的方法通过迭代地挖掘互补关注[22,48]或基于像素之间的语义亲和力传播CAM来解决没有外部信息的问题[1]。</p>
+<h3 id="weakly-supervised-instance-segmentation"><a href="#weakly-supervised-instance-segmentation" class="headerlink" title="weakly supervised instance segmentation"></a>weakly supervised instance segmentation</h3><p>对于实例分割，bounding boxes已经被广泛用作弱标签。由于一个bounding bo提示了对象的精确位置和比例，因此使用框标签的弱监督模型主要关注于估计对象形状。比如，DraphCut与通用的边界检测融合来更好地估计目标的形状。</p>
+
+  </section>
+</article>
+
+  <div class="sharing grid">
+  <section class="profile grid-item grid">
+    <img class="avatar" src="/pictures/avatar.png" alt="avatar" />
+    <div class="grid-item">
+      <p class="title"> Deep Learning </p>
+      <p class="subtitle"> Deep Learn Deep Learning </p>
+    <div>
+  </section>
+
+  <section class="share-btns">
+    <!-- <p> share it if you like it~ </p> -->
+    <a
+  class="twitter-share-button"
+  data-size="large"
+  data-via="smiletat"
+  href="https://twitter.com/intent/tweet?text=[TOC]</p>
+<p><img sr"
+>
+  Tweet
+</a>
+
+<script>
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  js.async = true;
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+
+  </section>
+</div>
+
+
+  
+    
+<section class="article-comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+<script>
+  var disqus_shortname = 'smiletat';
+  
+  var disqus_url = 'http://yoursite.com/SenmanticSegmentation/弱监督与半监督语义分割（四）IRNet/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+  
+</main>
+
+</body>
+</html>
