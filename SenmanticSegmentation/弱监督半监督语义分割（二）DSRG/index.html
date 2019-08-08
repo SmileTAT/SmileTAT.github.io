@@ -71,7 +71,7 @@
 <blockquote>
 <p>$$l_{boundary}$$:引用自&quot;Seed, expand and con- strain: Three principles for weakly-supervised image seg- mentation&quot;和&quot;Efficient inference in fully connected CRFs with gaus- sian edge potentials.&quot;</p>
 <p>名词注意：constrain-to-boundary loss — $$L_{constrain}$$ — $$L_{boundary}$$ 表示网络的输出和CRF的输出的平均KL散度</p>
-<p><img src="../Pictures/image-20190521102805654.png" alt="image-20190521102805654"></p>
+<p><img src="/pictures/image-20190521102805654.png" alt="image-20190521102805654"></p>
 </blockquote>
 <h3>深度种子区域生长</h3>
 <p>在介绍的种子损失中，本文发现种子线索是<strong>稀疏的</strong>，在实践中，大约40%的像素具有标签。在训练过程中，训练深度网络传统的做法是固定标签。本文的想法是对为标记的像素进行种子线索生长。这样可以得到<strong>更密集的监督信息</strong>来训练更好的分割网络。<strong>种子线索生长的基础是图片中具有同质的小区域，在这些区域像素应该具有相同的标签</strong>。同质的小区域经常用于low-level视觉中，比如生成super-pixels。为了制定种子线索的生长问题，我们引用了一个经典算法，<strong>种子区域生长（Seeding Region Growing）(SRG)</strong></p>
@@ -80,12 +80,12 @@
 <p>当分类网络初始化了初始的种子后，根据<strong>区域相似性准则</strong>开始从种子点到未标记的点来生成区域。<strong>区域相似性准则</strong>定义为一个候选像素是否应该被合并到一个特定的区域。现在当执行基于区域生长的语义分割网络的训练时，必须要解决的问题是：应该采用哪一个相似度准则来描绘图像区域。接下来我们详细介绍处理这个问题的策略。</p>
 <p>相似度准则$$P$$我们简单地使用分割网络生成的分割图$$H$$中的像素的概率阈值来表示：</p>
 <blockquote>
-<p><img src="../Pictures/image-20190521155024860.png" alt="image-20190521155024860"></p>
+<p><img src="/pictures/image-20190521155024860.png" alt="image-20190521155024860"></p>
 </blockquote>
 <p>其中$$H_{u,c}$$表示位置$$u$$处的像素属于$$c$$类的概率。$$\theta$$时一个概率阈值。**在实践中，我们没有对不同的类别设置不同的阈值。**前景类别共享了一个阈值$$\theta_{f}$$，背景的阈值为$$\theta_{b}$$。传统的SRG经常由于低级图像的特征对于目标的类间外观不鲁棒而出现过分割的现象。在DSRG中，我们使用深度特征来计算像素相似度，深度特征是已经被证明具有高级语义信息的。因此，DSRG可以减少过分割并且不需要传统SRG的合并过程（合并过程未了解？？）。</p>
 <p>现在我们可以使用分割图$H$和种子线索$S$作为执行区域生长的输入。DSRG对每一类是迭代访问的方式。我们定义类别$c$的访问过程为$V_{c}, c\in [0, |C|]$，其中c=0表示背景类。在$V_{c}$的一次迭代中，我们以行优先的方式（row-first）访问$S_{c}$所有的位置。当访问一个像素$Q$，我们定义像素$Q$的8邻居域未中标记的像素集合为$R$。对于$R_{u}\in R$它属于类别$c$的概率被定义为$H_{u,c}$。然后$R_{u}$基于$P$准则分类如下：</p>
 <blockquote>
-<p><img src="../Pictures/image-20190521161359732.png" alt="image-20190521161359732"></p>
+<p><img src="/pictures/image-20190521161359732.png" alt="image-20190521161359732"></p>
 </blockquote>
 <p>在访问所有的位置后，我们添加所有新标记的像素到$S_{c}$。一旦$S_{c}$被改变我们将再次访问更新后的$S_{c}$。否则，$V_{c}$停止。终止准则与经典的SRG每一个像素都需要标记不同。因为在分割网络的低置信度的预测下很难说像素的标记。然而随着分割网络的容量增加，未标记像素的数量将会减少并且目标范围已经被正确的标记。另外，为了减少$V_{c}$的冗余访问，我们首先计算区域中的邻域是否满足公式3，然后邻域赋予初始种子相同的标记。这些邻域被选择作为新的指导来训练分割网络。我们定义$$|C|+1$$轮迭代过程为DSRG(S, H)，这是区域生长步骤。最后的更新$$S=[S_{0},…,S_{C}]$$被作为监督信息，应用到使用seeding loss的分割网络中。Fig 2中，DSRG(S, H)插入到所提出的分割网络中。</p>
 <h2>实验</h2>
@@ -172,7 +172,24 @@
 
 
   
-</main><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</main><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 </body>
 </html>
