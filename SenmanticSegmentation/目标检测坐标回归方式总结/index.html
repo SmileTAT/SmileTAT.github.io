@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>目标检测坐标回归方式总结 | Deep Learning</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/app.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
+  
+</head>
+</html>
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+</nav>
+
+  <main class="post">
+  <article>
+  <h1 class="article-title">
+    <a href="/SenmanticSegmentation/目标检测坐标回归方式总结/">目标检测坐标回归方式总结</a>
+  </h1>
+
+  <section class="article-meta">
+    <p class="article-date">August 08 2019</p>
+  </section>
+
+  <section class="article-entry">
+    <h2>R-CNN</h2>
+<ol>
+<li>
+<p>Training pair $(P^{i}, G^{i})$</p>
+<p>Proposal和ground truth bounding box的坐标信息：</p>
+</li>
+</ol>
+<p>$$
+P^{i}=(P^{i}<em>{x},P^{i}</em>{y},P^{i}<em>{w},P^{i}</em>{h})\
+G^{i}=(G^{i}<em>{x},G^{i}</em>{y},G^{i}<em>{w},G^{i}</em>{h})
+$$</p>
+<ol start="2">
+<li>坐标回归学习的目标是proposal P到ground truth G的映射：</li>
+</ol>
+<p>$$
+\hat G^{x} = P_{w}d_{x}(P) +P_{x}\
+\hat G^{y} = P_{h}d_{y}(P) +P_{y}\
+\hat G^{w} = P_{w}\exp(d_{w}(P)) \
+\hat G^{h} = P_{h}\exp(d_{h}(P))
+$$</p>
+<p>第一和第二个是在原空间学习中心点坐标的平移变换，第三和第四个是在log空间学习长宽的缩放变换，通过带正则的最小二乘法学习，即岭回归学习（ridge regression）</p>
+<p><strong>为什么是log？</strong></p>
+<ol start="3">
+<li>学习的目标
+$$
+t_{x} = (G_{x} −P_{x})/P_{w} \
+t_{y} = (G_{y} −P_{y})/P_{h} \
+t_{w} = log(G_{w}/P_{w}) \
+t_{h} = log(G_{h}/P_{h})
+$$</li>
+</ol>
+<h2>Fast R-CNN</h2>
+<p>学习的目标与R-CNN相同即$t_x,t_y,t_w,t_h$</p>
+<p>学习方式不同，由网络直接学习，使用的损失函数是Smooth L1 Loss：
+$$
+smooth_{L1}(x) = \left{
+\begin{aligned}
+0.5x^2 &amp;  &amp; if\ |x|&lt;1 \
+|x|-0.5 &amp;  &amp; otherwise.
+\end{aligned}
+\right.
+$$
+Smooth L1 Loss相对于L2 Loss的优势在于，L2 Loss对于大的值容易梯度爆炸，Smooth L1 Loss在绝对值小于1采用L2 Loss可以保证最后平稳的收敛，梯度可以降到0，而直接采用L1 Loss的话梯度始终为1，最终无法很好收敛。</p>
+<h2>Faster R-CNN</h2>
+<p>学习目标与R-CNN和Fast R-CNN相似，但引入了anchor
+$$
+t_{x} = (x − x_{a})/w_{a}\
+t_{y} = (y − y_{a})/h_{a}\
+t_{w} = \log(w/w_{a})\
+t_{h} = \log(h/h_{a})\
+t^∗_{x} = (x^{∗} − x_{a})/w_{a}\
+t^∗_{y} = (y^{∗} − y_{a})/h_{a}\
+t^∗_{w} = \log(w^{∗}/w_{a})\
+t^∗_{h} = \log(h^{∗}/h_{a})
+$$
+原先学习的是预测值与真实值的一个变换，引入anchor后学习的是真实值与anchor的一个变换</p>
+<h2>YOLO V1</h2>
+<p>暴力回归</p>
+<p><img src="/pictures/image-20190707140446659.png" alt="image-20190707140446659"></p>
+<p>L2 Loss回归中心点坐标，对长宽开根号后L2 Loss回归</p>
+<p><strong>开根号的原因</strong>：</p>
+<p>对于大小不同的bbox预测中，相同的偏差在大bbox预测中的影响应该小于小bbox中的影响</p>
+<p>解决方案：对w和h取平方根来<strong>缓和</strong>，small bbox的横轴值较小，发生偏移时，反应到y轴上的loss比big bbox要大，举例$(\sqrt{20}-\sqrt{10})^2=1.7,\sqrt{100}-\sqrt{110})^2=0.23,$</p>
+<h2>YOLO 9000（YOLO V2）</h2>
+<p>引入anchor，但在训练早起出现模型不稳定，文中分析原因主要是预测x，y时不受到约束，当tx=1时，将往右移动一个anchor的宽度</p>
+<p><strong>改进后的坐标回归方式</strong>：</p>
+<p><img src="/pictures/image-20190808211336371.png" alt="image-20190808211336371"></p>
+<p>⚠️注意此时的坐标已经根据7*7cells换算过了，即cx是0, 1, ...,7所以可以使用sigmoid约束平移的距离在0-1之间。</p>
+<h2>YOLO V3</h2>
+<p>坐标回归方式与YOLO V2相同</p>
+<h2>SSD</h2>
+<p>与faster相似，回归的是与anchor (default bounding box)的偏差，中心坐标的原空间，长宽是log空间</p>
+
+  </section>
+</article>
+
+  <div class="sharing grid">
+  <section class="profile grid-item grid">
+    <img class="avatar" src="/pictures/avatar.png" alt="avatar" />
+    <div class="grid-item">
+      <p class="title"> Deep Learning </p>
+      <p class="subtitle"> Deep Learn Deep Learning </p>
+    <div>
+  </section>
+
+  <section class="share-btns">
+    <!-- <p> share it if you like it~ </p> -->
+    <a
+  class="twitter-share-button"
+  data-size="large"
+  data-via="smiletat"
+  href="https://twitter.com/intent/tweet?text=>R-CNN</h2>
+<ol>
+<li"
+>
+  Tweet
+</a>
+
+<script>
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  js.async = true;
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+
+  </section>
+</div>
+
+
+  
+    
+<section class="article-comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+<script>
+  var disqus_shortname = 'smiletat';
+  
+  var disqus_url = 'http://yoursite.com/SenmanticSegmentation/目标检测坐标回归方式总结/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+  
+</main>
+
+</body>
+</html>

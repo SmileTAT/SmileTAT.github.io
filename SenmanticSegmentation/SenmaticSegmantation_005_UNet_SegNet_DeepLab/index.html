@@ -63,28 +63,28 @@
 <p>反卷积上采样，可以学习非线性特征</p>
 <h1>UNet</h1>
 <p>https://zhuanlan.zhihu.com/p/31428783</p>
-<p>Unet结构**：</p>
+<p><strong>Unet结构</strong>：</p>
 <p><img src="https://pic1.zhimg.com/80/v2-96f5e828c1e83c930aa4a2bb91e64c10_hd.jpg" alt="img"></p>
 <p><strong>注意点1</strong>：</p>
 <p>特征融合方式：在channel维度方向拼接：concat</p>
 <p>#SegNet</p>
-<p><img src="https://img-blog.csdn.net/20170526141456016?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdqdW5oaXQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
+<p><img src="/pictures/SouthEast.png" alt="img"></p>
 <p><strong>注意点1</strong>:</p>
 <p>maxpooling记录了坐标，在对应上采样时使用这些坐标</p>
 <p>优点：改善边界，减少参数，</p>
 <h1>DeepLab系列</h1>
 <p>###DeepLab V3</p>
 <p><strong>ASPP的改进</strong>：并行结构</p>
-<p><img src="https://img-blog.csdn.net/20180721210433507?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0RseWxkeHds/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p><img src="/pictures/70.png" alt="img"></p>
 <p><strong>ASPP注意点1</strong>：</p>
 <ol>
 <li>1x1Conv：相当于rate很大的空洞卷积</li>
 <li>引入全局池化image pooling：图像层级的特征，多尺度</li>
 </ol>
 <p><strong>ASPP串联结构</strong>：</p>
-<p><img src="https://img-blog.csdn.net/20180721212909978?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0RseWxkeHds/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p><img src="/pictures/70-20190730232155443.png" alt="img"></p>
 <h3>DeepLab V3+</h3>
-<p><img src="https://img-blog.csdn.net/20180722191045112?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0RseWxkeHds/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p><img src="/pictures/70-20190730232201391.png" alt="img"></p>
 <p><strong>注意点1</strong>：</p>
 <ol>
 <li>Low-Level Features一般指s=4的输出， 因为语义信息较少所以接了1x1Conv：</li>

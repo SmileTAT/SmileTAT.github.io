@@ -36,18 +36,24 @@
   <section class="article-entry">
     <p>[TOC]</p>
 <p><img src="/pictures/image-20190524162958745.png" alt="image-20190524162958745"></p>
-<h2 id="注意点-启发"><a href="#注意点-启发" class="headerlink" title="注意点/启发"></a>注意点/启发</h2><ol>
+<h2>注意点/启发</h2>
+<ol>
 <li>双阶段</li>
 </ol>
-<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>以image-level 类别标签做实例分割。方法是为训练图片生成伪实例分割标签来训练一个全监督的网络。为了生成伪标签，我们首先借助分类网络从注意力图中确定可靠的种子区域，然后扩张他们使用准确的边界框来覆盖整个实例区域。提出IRNet来评估单独实例的粗略区域并检测不同目标类的检测边界。因此，它可以为种子分配实例标签并在边界内传播它们，从而可以准确地估计整个实体区域。另外，使用注意力图上内部像素的关系来训练IRNet，因此不需要额外的监督信息。SOAT PASCAL VOC 2012.</p>
-<h2 id="主要贡献"><a href="#主要贡献" class="headerlink" title="主要贡献"></a>主要贡献</h2><ol>
+<h2>摘要</h2>
+<p>以image-level 类别标签做实例分割。方法是为训练图片生成伪实例分割标签来训练一个全监督的网络。为了生成伪标签，我们首先借助分类网络从注意力图中确定可靠的种子区域，然后扩张他们使用准确的边界框来覆盖整个实例区域。提出IRNet来评估单独实例的粗略区域并检测不同目标类的检测边界。因此，它可以为种子分配实例标签并在边界内传播它们，从而可以准确地估计整个实体区域。另外，使用注意力图上内部像素的关系来训练IRNet，因此不需要额外的监督信息。SOAT PASCAL VOC 2012.</p>
+<h2>主要贡献</h2>
+<ol>
 <li>通过类的无关图使用image-level监督来识别和定位实例</li>
 <li>通过类别边界检测来学习和预测像素和image-level监督的语义映射，与之前的工作相比更有效</li>
 <li>PASCAL VOC 2012 TOTA</li>
 </ol>
-<h2 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h2><p>本节回顾与我们方法相近的语义和实例分割。我们首先介绍两个任务的弱监督方法，并讨论基于类似于我们框架的displacement和pairwise semantic affinity思想的模型。</p>
-<h3 id="weakly-supervised-semantic-segmentation"><a href="#weakly-supervised-semantic-segmentation" class="headerlink" title="weakly supervised semantic segmentation"></a>weakly supervised semantic segmentation</h3><p>对于弱监督语义分割已经有多种弱标签被使用，比如：bounding boxes，scribbles，points。特别是image-level类别被广泛用作弱标签，因为他们只需极少的标注。更多使用image-level的方法是基于CAMs[39,46,52]，他可以通过绘制目标类别显著性的区域来粗略地定位目标区域。<strong>然而，CAMs经常不能揭示完整的目标区域的正确边界。</strong>为了克服这个问题，使用额外的数据或监督来获取额外的信息，比如显著性，视频中的动作，提出类别无关目标？？最近的方法通过迭代地挖掘互补关注[22,48]或基于像素之间的语义亲和力传播CAM来解决没有外部信息的问题[1]。</p>
-<h3 id="weakly-supervised-instance-segmentation"><a href="#weakly-supervised-instance-segmentation" class="headerlink" title="weakly supervised instance segmentation"></a>weakly supervised instance segmentation</h3><p>对于实例分割，bounding boxes已经被广泛用作弱标签。由于一个bounding bo提示了对象的精确位置和比例，因此使用框标签的弱监督模型主要关注于估计对象形状。比如，DraphCut与通用的边界检测融合来更好地估计目标的形状。</p>
+<h2>相关工作</h2>
+<p>本节回顾与我们方法相近的语义和实例分割。我们首先介绍两个任务的弱监督方法，并讨论基于类似于我们框架的displacement和pairwise semantic affinity思想的模型。</p>
+<h3>weakly supervised semantic segmentation</h3>
+<p>对于弱监督语义分割已经有多种弱标签被使用，比如：bounding boxes，scribbles，points。特别是image-level类别被广泛用作弱标签，因为他们只需极少的标注。更多使用image-level的方法是基于CAMs[39,46,52]，他可以通过绘制目标类别显著性的区域来粗略地定位目标区域。**然而，CAMs经常不能揭示完整的目标区域的正确边界。**为了克服这个问题，使用额外的数据或监督来获取额外的信息，比如显著性，视频中的动作，提出类别无关目标？？最近的方法通过迭代地挖掘互补关注[22,48]或基于像素之间的语义亲和力传播CAM来解决没有外部信息的问题[1]。</p>
+<h3>weakly supervised instance segmentation</h3>
+<p>对于实例分割，bounding boxes已经被广泛用作弱标签。由于一个bounding bo提示了对象的精确位置和比例，因此使用框标签的弱监督模型主要关注于估计对象形状。比如，DraphCut与通用的边界检测融合来更好地估计目标的形状。</p>
 
   </section>
 </article>
